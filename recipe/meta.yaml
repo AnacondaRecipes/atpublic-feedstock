@@ -1,5 +1,5 @@
 {% set name = "atpublic" %}
-{% set version = "3.0.1" %}
+{% set version = "4.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,37 +7,44 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: bb072b50e6484490404e5cb4034e782aaa339fdd6ac36434e53c10791aef18bf
+  sha256: 0f40433219e124edf115c6c363808ca6f0e1cfa7d160d86b2fb94793086d1294
 
 
 build:
   number: 0
-  script: '{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv '
-  noarch: python
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - pip
-    - python >=3.6
-    - pdm
+    - python
+    - pdm-backend
   run:
-    - python >=3.6
+    - python
 
 test:
   imports:
     - public
     - public.public
     - public.private
+  requires: 
+    - pip
+  commands: 
+    - pip check
 
 about:
-  home: http://public.readthedocs.io/
+  home: https://gitlab.com/warsaw/public
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
   summary: |
-    A very simple decorator and function which populates a module’s __all__ and optionally 
+    A very simple decorator and function which populates a module's __all__ and optionally 
     the module globals.
+  description: |
+    This library provides two very simple decorators that document the publicness of the names in your module.
+    They keep your module's __all__ in sync so you don't have to.
   doc_url: https://public.readthedocs.io
+  dev_url: https://gitlab.com/warsaw/public
 
 extra:
   recipe-maintainers:
