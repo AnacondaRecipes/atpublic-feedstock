@@ -1,5 +1,5 @@
 {% set name = "atpublic" %}
-{% set version = "4.0" %}
+{% set version = "7.0.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,18 +7,19 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 0f40433219e124edf115c6c363808ca6f0e1cfa7d160d86b2fb94793086d1294
+  sha256: 466ef10d0c8bbd14fd02a5fbd5a8b6af6a846373d91106d3a07c16d72d96b63e
 
 
 build:
-  number: 1
+  number: 0
+  skip: true  # [py<310]
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
 
 requirements:
   host:
     - pip
     - python
-    - pdm-backend
+    - hatchling
   run:
     - python
 
@@ -27,9 +28,9 @@ test:
     - public
     - public.public
     - public.private
-  requires: 
+  requires:
     - pip
-  commands: 
+  commands:
     - pip check
 
 about:
@@ -38,7 +39,7 @@ about:
   license_family: APACHE
   license_file: LICENSE
   summary: |
-    A very simple decorator and function which populates a module's __all__ and optionally 
+    A very simple decorator and function which populates a module's __all__ and optionally
     the module globals.
   description: |
     This library provides two very simple decorators that document the publicness of the names in your module.
